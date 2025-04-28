@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GitHub Issue Bot Dashboard</title>
+  <style>
+    body { font-family: sans-serif; margin: 2em; background: #f5f5f5; }
+    .issue { background: white; padding: 1em; margin-bottom: 1em; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+  <h1>🤖 Issue Bot Dashboard</h1>
+  <div id="issues"></div>
+
+  <script>
+    const repoOwner = "your-username";
+    const repoName = "your-repo";
+
+    async function loadIssues() {
+      const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/issues`);
+      const issues = await res.json();
+      const container = document.getElementById('issues');
+      container.innerHTML = '';
+      issues.forEach(issue => {
+        container.innerHTML += `
+          <div class="issue">
+            <h2>#${issue.number}: ${issue.title}</h2>
+            <p>${issue.body}</p>
+            <p><strong>Status:</strong> ${issue.state}</p>
+          </div>
+        `;
+      });
+    }
+
+    loadIssues();
+  </script>
+</body>
+</html>
